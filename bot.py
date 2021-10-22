@@ -7,11 +7,13 @@ import os
 tokenReader = open("token.txt", "r")
 token = tokenReader.read()
 
+prefixReader = open("prefix.txt", "r")
+prefix = prefixReader.read()
+
 vc = None
 vol = 100
 speed = 1.0
 user = 0
-prefix = "<"
 language = "en"
 lang_dict = {
     "english":"en",
@@ -63,13 +65,28 @@ async def on_message(message):
                 return
             vol = clamp(float(msg[1]) / 100, 0, 1)
             vc.source.volume = vol
-                
+            
+        elif msg[0] == "attach":
+            if(len(message.mentions) != 0):
+                user = message.mentions[0].id
+                await message.channel.send("`Bound to: " + message.mentions[0].display_name + " and restricted to: " + message.channel.name + "`")
+            else:
+                user = message.author.id
+                await message.channel.send("`Bound to: " + message.author.display_name + " and restricted to: " + message.channel.name + "`")
+            rChan = message.channel
+            
+        elif msg[0] == "unattach":
+            user = 0
+            if rChan != None:
+                rChan = None
         elif msg[0] == "bind" and user == 0:
             user = message.mentions[0].id
             await message.channel.send("`Now bound to: " + message.mentions[0].display_name + "`")
             
         elif msg[0] == "unbind" and message.author.id == user:
             user = 0
+            if rChan != None:
+                rChan = None
             await message.channel.send("`No longer bound.`")
 
         elif msg[0] == "restrict" and message.author.id == user and rChan == None:

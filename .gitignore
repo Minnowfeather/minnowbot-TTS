@@ -1,2 +1,5 @@
 *
+!README.md
+!.gitignore
 !bot.py
+!prefix.txt
