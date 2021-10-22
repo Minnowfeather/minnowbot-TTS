@@ -66,7 +66,7 @@ async def on_message(message):
             vol = clamp(float(msg[1]) / 100, 0, 1)
             vc.source.volume = vol
             
-        elif msg[0] == "attach":
+        elif msg[0] == "attach" and user == 0:
             if(len(message.mentions) != 0):
                 user = message.mentions[0].id
                 await message.channel.send("`Bound to: " + message.mentions[0].display_name + " and restricted to: " + message.channel.name + "`")
@@ -75,7 +75,7 @@ async def on_message(message):
                 await message.channel.send("`Bound to: " + message.author.display_name + " and restricted to: " + message.channel.name + "`")
             rChan = message.channel
             
-        elif msg[0] == "unattach":
+        elif msg[0] == "unattach" and message.author.id == user:
             user = 0
             if rChan != None:
                 rChan = None
