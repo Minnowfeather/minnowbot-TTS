@@ -70,25 +70,28 @@ async def on_message(message):
             if(len(message.mentions) != 0):
                 user = message.mentions[0].id
                 await message.channel.send("`Bound to: " + message.mentions[0].display_name + " and restricted to: " + message.channel.name + "`")
+                await message.guild.me.edit(nick=message.mentions[0].display_name + "Bot")
             else:
                 user = message.author.id
                 await message.channel.send("`Bound to: " + message.author.display_name + " and restricted to: " + message.channel.name + "`")
+                await message.guild.me.edit(nick=message.author.display_name + "Bot")
             rChan = message.channel
             
         elif msg[0] == "unattach" and message.author.id == user:
             user = 0
             if rChan != None:
                 rChan = None
+            await message.guild.me.edit(nick="MinnowBot")
         elif msg[0] == "bind" and user == 0:
             user = message.mentions[0].id
             await message.channel.send("`Now bound to: " + message.mentions[0].display_name + "`")
-            
+            await message.guild.me.edit(nick=message.mentions[0].display_name + "Bot")
         elif msg[0] == "unbind" and message.author.id == user:
             user = 0
             if rChan != None:
                 rChan = None
             await message.channel.send("`No longer bound.`")
-
+            await message.guild.me.edit(nick="MinnowBot")
         elif msg[0] == "restrict" and message.author.id == user and rChan == None:
             rChan = message.channel
             await message.channel.send("`Restricted to " + message.channel.name + "`")
@@ -103,7 +106,8 @@ async def on_message(message):
             deafStat = message.author.voice.deaf
             deafStat = not deafStat
             await message.author.edit(mute=deafStat, deafen=deafStat)
-
+        elif msg[0] == "quit":
+            quit()
     elif message.author.id == user:
         if rChan == None:
             await connect(message.author.voice.channel)
