@@ -118,8 +118,7 @@ async def on_message(message):
 
 
 async def connect(channel):
-    global vc, vol, prefix, language, speed
-    
+    global vc
     try:
         vc = await channel.connect()
     except:
@@ -127,7 +126,7 @@ async def connect(channel):
     
     
 async def speak(message):
-    global vc, vol, prefix, language, speed
+    global vc, vol, language
 
     speechObject = gTTS(text=message, lang=language, slow=False)
     speechObject.save("speech.mp3")
@@ -158,20 +157,5 @@ async def set_lang(lang):
  
 def clamp(num, mi, ma):
     return max(min(num, ma), mi)
-
-# @client.event
-# async def on_voice_state_update(member, before, after):
-#     global user, vc
-#     if member == client.user:
-#         return
-#     print(member.id)
-#     print(user)
-#     if member.id == user and after.channel != None:
-#         print("deez")
-#         try:
-#             vc = await after.channel.connect()
-#         except:
-#             await vc.move_to(after.channel)
-
 
 client.run(token)
