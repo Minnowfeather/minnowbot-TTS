@@ -35,6 +35,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    # process message
     msg = message.content
     is_command = msg[:len(prefix)] == prefix
     msg = msg[len(prefix):]
@@ -42,11 +43,14 @@ async def on_message(message):
     
     if is_command:
         if msg[0] == "lang" and message.author.id == user:
-            l = await set_lang(msg[1])
-            if l:
-                await message.channel.send("`Language set to: " + language + "`")
+            if len(msg < 2):
+                msg[0] = "langs"
             else:
-                await message.channel.send("`Not a valid language.`")
+                l = await set_lang(msg[1])
+                if l:
+                    await message.channel.send("`Language set to: " + language + "`")
+                else:
+                    await message.channel.send("`Not a valid language.`")
         elif msg[0] == "language" and message.author.id == user:
             l = await set_lang(msg[1])
             if l:
