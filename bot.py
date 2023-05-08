@@ -2,6 +2,7 @@
 
 import discord
 from gtts import gTTS
+import gtts.lang
 import os
 
 tokenReader = open("token.txt", "r")
@@ -15,17 +16,7 @@ vol = 100
 speed = 1.0
 user = 0
 language = "en"
-lang_dict = {
-    "english":"en",
-    "spanish":"es",
-    "brazillian":"pt-BR",
-    "japanese":"ja",
-    "australian":"en-AU",
-    "england":"en-GB",
-    "korean":"ko",
-    "indian":"en-IN",
-    "chinese":"zh"
-}
+lang_dict = dict([(value,key) for key, value in gtts.lang.tts_langs().items()])
 
 rChan = None
 
@@ -111,6 +102,12 @@ async def on_message(message):
             await message.author.edit(mute=deafStat, deafen=deafStat)
         elif msg[0] == "quit":
             quit()
+        elif msg[0] == "langs":
+            tmpLangs = "`"
+            for myKey in lang_dict.keys():
+                tmpLangs += myKey + "\n"
+            tmpLangs += "`"
+            await message.channel.send(tmpLangs)
     elif message.author.id == user:
         if rChan == None:
             await connect(message.author.voice.channel)
