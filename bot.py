@@ -43,14 +43,11 @@ async def on_message(message):
     
     if is_command:
         if msg[0] == "lang" and message.author.id == user:
-            if len(msg < 2):
-                msg[0] = "langs"
+            l = await set_lang(msg[1])
+            if l:
+                await message.channel.send("`Language set to: " + language + "`")
             else:
-                l = await set_lang(msg[1])
-                if l:
-                    await message.channel.send("`Language set to: " + language + "`")
-                else:
-                    await message.channel.send("`Not a valid language.`")
+                await message.channel.send("`Not a valid language.`")
         elif msg[0] == "language" and message.author.id == user:
             l = await set_lang(msg[1])
             if l:
@@ -104,7 +101,7 @@ async def on_message(message):
             deafStat = message.author.voice.deaf
             deafStat = not deafStat
             await message.author.edit(mute=deafStat, deafen=deafStat)
-        elif msg[0] == "quit":
+        elif msg[0] == "quit" or msg[0] == "exit":
             quit()
         elif msg[0] == "langs":
             tmpLangs = "`"
