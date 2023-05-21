@@ -72,7 +72,7 @@ async def on_message(message):
                 await message.guild.me.edit(nick=message.author.display_name + "Bot")
             rChan = message.channel
             
-        elif msg[0] == "unattach" and message.author.id == user:
+        elif (msg[0] == "unattach" or msg[0] == "detatch") and message.author.id == user:
             user = 0
             if rChan != None:
                 rChan = None
