@@ -5,11 +5,26 @@ from gtts import gTTS
 import gtts.lang
 import os
 
-tokenReader = open("token.txt", "r")
-token = tokenReader.read()
+import argparse
 
-prefixReader = open("prefix.txt", "r")
-prefix = prefixReader.read()
+argParser = argparse.ArgumentParser(prog="minnowbot-tts", description="Discord bot for text-to-speech.")
+argParser.add_argument('-t', '--token', nargs=1, help="Sets the token. Will otherwise read from token.txt")
+argParser.add_argument('-p', '--prefix', nargs=1, help="Sets the prefix. Will otherwise read from prefix.txt")
+
+args = vars(argParser.parse_args())
+
+token = ""
+prefix = ""
+if 'token' in args.keys():
+    token = args['token'][0]
+else:
+    tokenReader = open("token.txt", "r")
+    token = tokenReader.read()
+if 'prefix' in args.keys():
+    prefix = args['prefix'][0]
+else:
+    prefixReader = open("prefix.txt", "r")
+    prefix = prefixReader.read()
 
 vc = None
 vol = 100
@@ -102,7 +117,7 @@ async def on_message(message):
             deafStat = not deafStat
             await message.author.edit(mute=deafStat, deafen=deafStat)
         elif msg[0] == "quit" or msg[0] == "exit":
-            quit()
+            await client.close()
         elif msg[0] == "langs":
             tmpLangs = "`"
             for myKey in lang_dict.keys():
