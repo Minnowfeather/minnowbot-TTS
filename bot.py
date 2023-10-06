@@ -13,7 +13,6 @@ argParser.add_argument('-p', '--prefix', nargs=1, help="Sets the prefix. Will ot
 
 args = vars(argParser.parse_args())
 
-print(args)
 token = ""
 prefix = ""
 if args['token'] is not None:
