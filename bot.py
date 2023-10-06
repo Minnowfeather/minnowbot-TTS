@@ -13,14 +13,15 @@ argParser.add_argument('-p', '--prefix', nargs=1, help="Sets the prefix. Will ot
 
 args = vars(argParser.parse_args())
 
+print(args)
 token = ""
 prefix = ""
-if 'token' in args.keys():
+if args['token'] is not None:
     token = args['token'][0]
 else:
     tokenReader = open("token.txt", "r")
     token = tokenReader.read()
-if 'prefix' in args.keys():
+if args['prefix'] is not None:
     prefix = args['prefix'][0]
 else:
     prefixReader = open("prefix.txt", "r")
