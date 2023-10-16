@@ -119,10 +119,10 @@ async def on_message(message):
         elif msg[0] == "quit" or msg[0] == "exit":
             await client.close()
         elif msg[0] == "langs":
-            tmpLangs = "`"
+            tmpLangs = "```"
             for myKey in lang_dict.keys():
                 tmpLangs += myKey + "\n"
-            tmpLangs += "`"
+            tmpLangs += "```"
             await message.channel.send(tmpLangs)
     elif message.author.id == user:
         if rChan == None:
@@ -142,12 +142,13 @@ async def connect(channel):
     
     
 async def speak(message):
-    global vc, vol, language
+    global vc, vol, language, user
 
+    filename = str(user) + ".mp3"
     speechObject = gTTS(text=message, lang=language, slow=False)
-    speechObject.save("speech.mp3")
+    speechObject.save(filename)
   
-    vc.play(discord.FFmpegPCMAudio("speech.mp3"))
+    vc.play(discord.FFmpegPCMAudio(filename))
     vc.source = discord.PCMVolumeTransformer(vc.source)
     vc.source.volume = vol
     vc.resume()
