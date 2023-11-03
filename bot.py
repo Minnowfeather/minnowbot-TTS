@@ -116,6 +116,8 @@ async def on_message(message):
             deafStat = message.author.voice.deaf
             deafStat = not deafStat
             await message.author.edit(mute=deafStat, deafen=deafStat)
+        elif msg[0] == "disconnect" or msg[0] == "dc":
+            await disconnect(msg.guild.voice_client)
         elif msg[0] == "quit" or msg[0] == "exit":
             await client.close()
         elif msg[0] == "langs":
@@ -140,7 +142,15 @@ async def connect(channel):
     except:
         await vc.move_to(channel)
     
-    
+async def disconnect(voiceclient):
+    try:
+        await voiceclient.disconnect()
+        vc = None
+    except:
+        print("Error disconnecting")
+
+
+
 async def speak(message):
     global vc, vol, language, user
 
